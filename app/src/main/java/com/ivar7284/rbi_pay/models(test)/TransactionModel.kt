@@ -1,4 +1,4 @@
-package com.ivar7284.rbi_pay.models
+package com.ivar7284.rbi_pay.`models(test)`
 
 class TransactionModel {
     lateinit var txn_date : String
