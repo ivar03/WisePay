@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/green_light"
+    android:elevation="10dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
+        <ImageView
+            android:id="@+id/transaction_img"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@color/green_dark"
+            android:layout_centerVertical="true"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:layout_marginStart="40dp"
+            android:layout_centerVertical="true">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Payment to:"
+                android:textColor="@color/green_dark"
+                android:textSize="18sp"
+                android:layout_marginStart="20dp"/>
+            <TextView
+                android:id="@+id/transaction_receiver"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Receiver"
+                android:textColor="@color/green_dark"
+                android:textSize="15sp"
+                android:layout_marginStart="20dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="end"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true">
+
+            <TextView
+                android:id="@+id/transaction_amt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rs.10"
+                android:textColor="@color/green_dark"
+                android:textSize="18sp"
+                android:layout_marginStart="20dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dated"
+                android:textSize="14sp"
+                android:textColor="@color/green_dark"
+                android:layout_marginStart="20dp"
+                />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

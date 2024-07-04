@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.LockFragment"
+    android:background="@color/green_light">
+
+    <TextView
+        android:id="@+id/heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lock Things on one click"
+        android:textColor="@color/green_dark"
+        android:textStyle="bold"
+        android:textSize="30sp"
+        android:textAlignment="center"
+        android:layout_marginTop="20dp"/>
+
+    <LinearLayout
+        android:id="@+id/options"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/heading">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:drawableStart="@drawable/card_icon"
+                android:drawableTint="@color/green_medium2"
+                android:drawablePadding="16dp"
+                android:text="Credit Card"
+                android:textSize="16sp"
+                android:background="@drawable/edittext_bg"
+                android:padding="16dp"
+                android:textColor="@color/green_medium2"
+                android:textColorHint="@color/green_medium2"
+                />
+
+            <CheckBox
+                android:id="@+id/credit_card_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="19dp"
+                android:layout_marginTop="19dp"
+                android:layout_alignParentEnd="true"
+                android:focusedSearchResultHighlightColor="@color/green_dark"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:drawableStart="@drawable/card_icon"
+                android:drawableTint="@color/green_medium2"
+                android:drawablePadding="16dp"
+                android:text="Debit Card"
+                android:textSize="16sp"
+                android:background="@drawable/edittext_bg"
+                android:padding="16dp"
+                android:textColor="@color/green_medium2"
+                android:textColorHint="@color/green_medium2"
+                />
+
+            <CheckBox
+                android:id="@+id/debit_card_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="19dp"
+                android:layout_marginTop="19dp"
+                android:layout_alignParentEnd="true"
+                android:focusedSearchResultHighlightColor="@color/green_dark"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:drawableStart="@drawable/laptop_icon"
+                android:drawableTint="@color/green_medium2"
+                android:drawablePadding="16dp"
+                android:text="Internet Banking"
+                android:textSize="16sp"
+                android:background="@drawable/edittext_bg"
+                android:padding="16dp"
+                android:textColor="@color/green_medium2"
+                android:textColorHint="@color/green_medium2"
+                />
+
+            <CheckBox
+                android:id="@+id/internet_banking_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="19dp"
+                android:layout_marginTop="19dp"
+                android:layout_alignParentEnd="true"
+                android:focusedSearchResultHighlightColor="@color/green_dark"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:drawableStart="@drawable/online_payment_icon"
+                android:drawableTint="@color/green_medium2"
+                android:drawablePadding="16dp"
+                android:text="UPI"
+                android:textSize="16sp"
+                android:background="@drawable/edittext_bg"
+                android:padding="16dp"
+                android:textColor="@color/green_medium2"
+                android:textColorHint="@color/green_medium2"
+                />
+
+            <CheckBox
+                android:id="@+id/upi_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="19dp"
+                android:layout_marginTop="19dp"
+                android:layout_alignParentEnd="true"
+                android:focusedSearchResultHighlightColor="@color/green_dark"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:drawableStart="@drawable/mobile_icon"
+            android:drawableTint="@color/green_medium2"
+            android:drawablePadding="16dp"
+            android:text="Banking App"
+            android:textSize="16sp"
+            android:background="@drawable/edittext_bg"
+            android:padding="16dp"
+            android:textColor="@color/green_medium2"
+            android:textColorHint="@color/green_medium2"
+            />
+
+        <CheckBox
+            android:id="@+id/banking_app_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="19dp"
+            android:layout_marginTop="19dp"
+            android:layout_alignParentEnd="true"
+            android:focusedSearchResultHighlightColor="@color/green_dark"
+            />
+
+    </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+        android:id="@+id/login_btn"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
+        android:layout_below="@+id/options"
+        android:backgroundTint="@color/green_medium"
+        android:elevation="10dp"
+        android:layout_centerHorizontal="true"
+        android:fontFamily="sans-serif-black"
+        android:shadowColor="@color/green_dark"
+        android:text="confirm"
+        android:textColor="@color/green_dark"
+        android:textSize="20sp"/>
+
+</RelativeLayout>
