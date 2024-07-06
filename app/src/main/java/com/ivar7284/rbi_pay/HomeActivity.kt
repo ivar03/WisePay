@@ -1,6 +1,5 @@
 package com.ivar7284.rbi_pay
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -11,20 +10,16 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
 import com.ivar7284.rbi_pay.fragments.HistoryFragment
 import com.ivar7284.rbi_pay.fragments.HomeFragment
 import com.ivar7284.rbi_pay.fragments.LockFragment
-import com.ivar7284.rbi_pay.fragments.LoginFragment
 
 class HomeActivity : AppCompatActivity() {
 
@@ -38,9 +33,6 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var historyBtn: LinearLayout
     private lateinit var scannerBtn: ImageView
 
-    private val URL = ""
-
-    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -52,10 +44,11 @@ class HomeActivity : AppCompatActivity() {
         }
 
         loadFragment(HomeFragment())
-        findViewById<View>(R.id.home_view).backgroundTintList = ColorStateList.valueOf(Color.parseColor("#03534d"))
+        findViewById<View>(R.id.home_view).backgroundTintList =
+            ColorStateList.valueOf(Color.parseColor("#03534d"))
         findViewById<TextView>(R.id.home_tv).visibility = View.VISIBLE
 
-        //nav drawer
+        // Initialize views and set click listeners
         drawerLayout = findViewById(R.id.drawer_layout)
         navigationView = findViewById(R.id.navigation_view)
         drawerButton = findViewById(R.id.drawer_button)
@@ -69,13 +62,16 @@ class HomeActivity : AppCompatActivity() {
                 R.id.nav_qr -> {
                     //
                 }
-                R.id.nav_locker ->{
+
+                R.id.nav_locker -> {
                     val lockerFrag = LockFragment()
                     loadFragment(lockerFrag)
                 }
+
                 R.id.nav_profile -> {
                     startActivity(Intent(applicationContext, ProfileActivity::class.java))
                 }
+
                 R.id.nav_history -> {
                     val historyFrag = HistoryFragment()
                     loadFragment(historyFrag)
@@ -85,7 +81,7 @@ class HomeActivity : AppCompatActivity() {
             true
         }
 
-        //nav bar bottom
+        // Initialize bottom navigation buttons
         profileBtn = findViewById(R.id.account_nav)
         homeBtn = findViewById(R.id.home_nav)
         lockerBtn = findViewById(R.id.lock_nav)
@@ -97,40 +93,22 @@ class HomeActivity : AppCompatActivity() {
         }
 
         homeBtn.setOnClickListener {
-            findViewById<View>(R.id.home_view).backgroundTintList = ColorStateList.valueOf(Color.parseColor("#03534d"))
-            findViewById<View>(R.id.lock_view).backgroundTintList = ColorStateList.valueOf(Color.parseColor("#008475"))
-            findViewById<View>(R.id.history_view).backgroundTintList = ColorStateList.valueOf(Color.parseColor("#008475"))
-            findViewById<TextView>(R.id.home_tv).visibility = View.VISIBLE
-            findViewById<TextView>(R.id.history_tv).visibility = View.GONE
-            findViewById<TextView>(R.id.lock_tv).visibility = View.GONE
-            val homeFrag = HomeFragment()
-            loadFragment(homeFrag)
+            updateBottomNavigationState(R.id.home_view, R.id.home_tv)
+            loadFragment(HomeFragment())
         }
 
         lockerBtn.setOnClickListener {
-            findViewById<View>(R.id.lock_view).backgroundTintList = ColorStateList.valueOf(Color.parseColor("#03534d"))
-            findViewById<View>(R.id.home_view).backgroundTintList = ColorStateList.valueOf(Color.parseColor("#008475"))
-            findViewById<View>(R.id.history_view).backgroundTintList = ColorStateList.valueOf(Color.parseColor("#008475"))
-            findViewById<TextView>(R.id.lock_tv).visibility = View.VISIBLE
-            findViewById<TextView>(R.id.home_tv).visibility = View.GONE
-            findViewById<TextView>(R.id.history_tv).visibility = View.GONE
-            val lockerFrag = LockFragment()
-            loadFragment(lockerFrag)
+            updateBottomNavigationState(R.id.lock_view, R.id.lock_tv)
+            loadFragment(LockFragment())
         }
 
         historyBtn.setOnClickListener {
-            findViewById<View>(R.id.history_view).backgroundTintList = ColorStateList.valueOf(Color.parseColor("#03534d"))
-            findViewById<View>(R.id.home_view).backgroundTintList = ColorStateList.valueOf(Color.parseColor("#008475"))
-            findViewById<View>(R.id.lock_view).backgroundTintList = ColorStateList.valueOf(Color.parseColor("#008475"))
-            findViewById<TextView>(R.id.history_tv).visibility = View.VISIBLE
-            findViewById<TextView>(R.id.home_tv).visibility = View.GONE
-            findViewById<TextView>(R.id.lock_tv).visibility = View.GONE
-            val historyFrag = HistoryFragment()
-            loadFragment(historyFrag)
+            updateBottomNavigationState(R.id.history_view, R.id.history_tv)
+            loadFragment(HistoryFragment())
         }
 
         scannerBtn.setOnClickListener {
-            Toast.makeText(this, "Not yet Implemented", Toast.LENGTH_LONG).show()
+            //
         }
 
     }
@@ -146,9 +124,20 @@ class HomeActivity : AppCompatActivity() {
             .commit()
     }
 
+    private fun updateBottomNavigationState(selectedViewId: Int, selectedTextViewId: Int) {
+        findViewById<View>(R.id.home_view).backgroundTintList = ColorStateList.valueOf(Color.parseColor("#008475"))
+        findViewById<View>(R.id.lock_view).backgroundTintList = ColorStateList.valueOf(Color.parseColor("#008475"))
+        findViewById<View>(R.id.history_view).backgroundTintList = ColorStateList.valueOf(Color.parseColor("#008475"))
+
+        findViewById<View>(selectedViewId).backgroundTintList = ColorStateList.valueOf(Color.parseColor("#03534d"))
+
+        findViewById<TextView>(R.id.home_tv).visibility = if (selectedTextViewId == R.id.home_tv) View.VISIBLE else View.GONE
+        findViewById<TextView>(R.id.lock_tv).visibility = if (selectedTextViewId == R.id.lock_tv) View.VISIBLE else View.GONE
+        findViewById<TextView>(R.id.history_tv).visibility = if (selectedTextViewId == R.id.history_tv) View.VISIBLE else View.GONE
+    }
+
     private fun getAccessToken(): String? {
         val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
         return sharedPreferences.getString("access_token", null)
     }
-
 }
