@@ -59,7 +59,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    //custom
+    // custom dependencies
     implementation("androidx.vectordrawable:vectordrawable:1.2.0")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("androidx.cardview:cardview:1.0.0")
@@ -67,23 +67,21 @@ dependencies {
     implementation("com.android.volley:volley:1.2.1")
     implementation("com.journeyapps:zxing-android-embedded:4.3.0")
     implementation("com.google.zxing:core:3.5.3")
-    implementation("com.google.android.material:material:1.5.0")
-    implementation("com.journeyapps:zxing-android-embedded:4.3.0")
+    implementation("com.google.android.material:material:1.5.0") // Ensure the correct version is used
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.1")
     implementation("br.com.simplepass:loading-button-android:2.2.0")
-    implementation ("com.google.android.material:material:1.11.0")
-    implementation ("androidx.viewpager2:viewpager2:1.0.0")
+    implementation("androidx.viewpager2:viewpager2:1.0.0")
     implementation("org.jetbrains.kotlinx:atomicfu:0.23.1")
     implementation("io.ktor:ktor-client-core:2.2.0")
     implementation("io.ktor:ktor-client-cio:2.2.0")
     implementation("io.ktor:ktor-client-content-negotiation:2.2.0")
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.2.0")
     implementation("de.hdodenhof:circleimageview:3.1.0")
-    implementation ("com.google.mlkit:barcode-scanning:16.1.0")
-    implementation ("androidx.camera:camera-camera2:1.1.0")
-    implementation ("androidx.camera:camera-lifecycle:1.1.0")
-    implementation ("androidx.camera:camera-view:1.1.0-alpha09")
-
+    implementation("com.google.mlkit:barcode-scanning:16.1.0")
+    implementation("androidx.camera:camera-camera2:1.1.0")
+    implementation("androidx.camera:camera-lifecycle:1.1.0")
+    implementation("androidx.camera:camera-view:1.1.0-alpha09")
+    implementation ("androidx.biometric:biometric:1.1.0")
 }
