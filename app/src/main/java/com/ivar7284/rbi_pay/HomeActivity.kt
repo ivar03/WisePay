@@ -33,10 +33,15 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var historyBtn: LinearLayout
     private lateinit var scannerBtn: ImageView
 
+    private val SMS_PERMISSION_REQUEST_CODE = 200
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         overridePendingTransition(0, 0)
+
+        //permission for sms reading
+        requestPermissions(arrayOf(android.Manifest.permission.RECEIVE_SMS), SMS_PERMISSION_REQUEST_CODE)
 
         loadFragment(HomeFragment())
         findViewById<View>(R.id.home_view).backgroundTintList =
