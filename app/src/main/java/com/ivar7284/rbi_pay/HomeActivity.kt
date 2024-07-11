@@ -43,7 +43,8 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var historyBtn: LinearLayout
     private lateinit var scannerBtn: ImageView
 
-    private val SMS_PERMISSION_REQUEST_CODE = 200
+    private val PERMISSION_REQUEST_CODE = 1001
+
 
     private lateinit var sharedPreferences: SharedPreferences
 
@@ -83,7 +84,12 @@ class HomeActivity : AppCompatActivity() {
         }
 
         //permission for sms reading
-        requestPermissions(arrayOf(android.Manifest.permission.RECEIVE_SMS), SMS_PERMISSION_REQUEST_CODE)
+        val permissions = arrayOf(
+            android.Manifest.permission.RECEIVE_SMS,
+            android.Manifest.permission.ACCESS_FINE_LOCATION
+        )
+
+        requestPermissions(permissions, PERMISSION_REQUEST_CODE)
 
         loadFragment(HomeFragment())
         findViewById<View>(R.id.home_view).backgroundTintList =
