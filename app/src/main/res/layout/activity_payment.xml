@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PaymentActivity"
+    android:background="@color/green_light">
+
+    <ImageView
+        android:id="@+id/back_btn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/back_icon"
+        app:tint="@color/green_medium2"
+        android:padding="8dp"
+        android:layout_margin="16dp"/>
+    <!--TODO: add the nft option with report option in the 3 dotted option-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_above="@+id/amount_ll"
+        android:layout_below="@+id/back_btn"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/detail1_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Paying username"
+            android:textSize="14sp"
+            android:textColor="@color/green_medium2"/>
+
+        <TextView
+            android:id="@+id/detail2_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="UPI ID upi_id"
+            android:textSize="14sp"
+            android:textColor="@color/green_medium2"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/amount_ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_centerInParent="true"
+        android:paddingHorizontal="16dp">
+
+        <View
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/rupee_icon"
+            android:backgroundTint="@color/green_medium2"
+            android:layout_gravity="bottom"
+            android:layout_marginVertical="14dp"/>
+
+        <EditText
+            android:id="@+id/amount_et"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/green_medium2"
+            android:gravity="center_vertical"
+            android:hint="0"
+            android:inputType="number"
+            android:textColorHint="@color/green_medium2"
+            android:textStyle="bold"
+            android:textSize="50sp"
+            android:background="@color/zxing_transparent"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/buttons_ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginBottom="40dp">
+
+        <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+            android:id="@+id/pay_button"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Pay"
+            android:textSize="16sp"
+            android:textColor="@color/green_dark"
+            android:backgroundTint="@color/green_medium"
+            android:layout_marginEnd="15dp"/>
+
+        <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+            android:id="@+id/cancel_button"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:textSize="16sp"
+            android:textColor="@color/green_dark"
+            android:background="@color/zxing_transparent"
+            android:backgroundTint="@color/green_medium"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>

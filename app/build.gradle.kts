@@ -84,4 +84,6 @@ dependencies {
     implementation("androidx.camera:camera-lifecycle:1.1.0")
     implementation("androidx.camera:camera-view:1.1.0-alpha09")
     implementation ("androidx.biometric:biometric:1.1.0")
+    implementation ("org.java-websocket:Java-WebSocket:1.5.2")
+
 }

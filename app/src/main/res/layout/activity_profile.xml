@@ -42,7 +42,7 @@
             android:layout_width="300dp"
             android:layout_height="300dp"
             android:background="#3703534D"
-            android:src="@drawable/account_icon"
+            android:src="@drawable/profile_icon"
             app:tint="@color/green_light"/>
 
     </LinearLayout>

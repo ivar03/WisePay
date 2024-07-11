@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
@@ -25,6 +26,7 @@ import com.google.android.material.navigation.NavigationView
 import com.ivar7284.rbi_pay.fragments.HistoryFragment
 import com.ivar7284.rbi_pay.fragments.HomeFragment
 import com.ivar7284.rbi_pay.fragments.LockFragment
+import com.ivar7284.rbi_pay.utils.MoneyReceivedNotification
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
@@ -72,6 +74,14 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
         overridePendingTransition(0, 0)
 
+        //for giving the notification on receiving the money
+        val intent = Intent(this, MoneyReceivedNotification::class.java)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(intent)
+        } else {
+            startService(intent)
+        }
+
         //permission for sms reading
         requestPermissions(arrayOf(android.Manifest.permission.RECEIVE_SMS), SMS_PERMISSION_REQUEST_CODE)
 
@@ -92,7 +102,7 @@ class HomeActivity : AppCompatActivity() {
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.nav_qr -> {
-                    //
+                    checkPermissionCamera(this)
                 }
 
                 R.id.nav_locker -> {
@@ -163,8 +173,9 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setResult(string: String) {
-        sharedPreferences = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-        //fetchingData(string)
+        val intent = Intent(this, PaymentActivity::class.java)
+        intent.putExtra("QR_RESULT", string)
+        startActivity(intent)
     }
 
     private fun showCamera() {
