@@ -16,7 +16,6 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
 
-
     <uses-feature android:name="android.hardware.camera.any" />
     <uses-feature
         android:name="android.hardware.telephony"
@@ -36,6 +35,21 @@
         android:theme="@style/Theme.RBI_Pay"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".BankTransferActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MobileTransferActivity"
+            android:exported="false" />
+        <activity
+            android:name=".VirtualDebitActivity"
+            android:exported="false" />
+        <activity
+            android:name=".VirtualCreditActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ReportActivity"
+            android:exported="false" />
         <activity
             android:name=".PaymentActivity"
             android:exported="false" />
@@ -86,7 +100,6 @@
             android:exported="false"
             android:foregroundServiceType="dataSync"
             tools:ignore="ForegroundServicePermission" />
-
     </application>
 
 </manifest>

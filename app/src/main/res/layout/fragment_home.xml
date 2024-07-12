@@ -3,8 +3,161 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.HomeFragment"
     android:background="@color/green_light">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/video_playback_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginVertical="50dp"/>
+
+    <LinearLayout
+        android:id="@+id/paying_options_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/video_playback_rv"
+        android:layout_margin="20dp">
+        <LinearLayout
+            android:id="@+id/paying_options_row1_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="10dp">
+            <LinearLayout
+                android:id="@+id/scan_pay_ll"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginHorizontal="20dp">
+
+                <View
+                    android:id="@+id/scan_pay_view"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/qr_icon"
+                    android:backgroundTint="@color/green_medium2"/>
+                <TextView
+                    android:id="@+id/scan_pay_tv"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:text="Scan &amp; pay"
+                    android:textAlignment="center"
+                    android:textColor="@color/green_dark"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/mobile_no_ll"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginHorizontal="20dp">
+
+                <View
+                    android:id="@+id/mobile_no_view"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/mobile_icon"
+                    android:backgroundTint="@color/green_medium2"/>
+                <TextView
+                    android:id="@+id/mobile_no_tv"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:text="To Mobile Number"
+                    android:textAlignment="center"
+                    android:textColor="@color/green_dark"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/bank_account_ll"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginHorizontal="20dp">
+
+                <View
+                    android:id="@+id/bank_account_view"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/bank_icon"
+                    android:backgroundTint="@color/green_medium2"/>
+                <TextView
+                    android:id="@+id/bank_account_tv"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:text="To Bank Account"
+                    android:textAlignment="center"
+                    android:textColor="@color/green_dark"/>
+
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/paying_options_row2_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="10dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/virtual_credit_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Virtual Credit Card"
+                    android:textColor="@color/green_light"
+                    android:drawableStart="@drawable/card_icon"
+                    android:drawableTint="@color/green_light"
+                    android:layout_marginHorizontal="10dp"
+                    android:elevation="10dp"/>
+                <Button
+                    android:id="@+id/virtual_debit_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Virtual Debit Card"
+                    android:textColor="@color/green_light"
+                    android:drawableStart="@drawable/card_icon"
+                    android:drawableTint="@color/green_light"
+                    android:layout_marginEnd="10dp"
+                    android:elevation="10dp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/report_spam_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_below="@+id/paying_options_ll"
+        android:layout_margin="30dp"
+        android:elevation="10dp">
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/report_spam_btn"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:text="Report &amp; Spam"
+            android:background="@color/green_dark"
+            android:textColor="@color/green_light"
+            android:elevation="10dp"/>
+    </LinearLayout>
 
 </RelativeLayout>
