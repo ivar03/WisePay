@@ -75,6 +75,8 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_home)
         overridePendingTransition(0, 0)
 
+        //TODO: backend integration
+
         //for giving the notification on receiving the money
         val intent = Intent(this, MoneyReceivedNotification::class.java)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
