@@ -5,12 +5,23 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <WebView
-        android:id="@+id/youtube_web_view"
+    <FrameLayout
         android:layout_width="420dp"
         android:layout_height="280dp"
-        android:layout_gravity="center"
-        tools:ignore="WebViewLayout" />
+        android:layout_gravity="center">
+
+        <WebView
+            android:id="@+id/youtube_web_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="WebViewLayout" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+    </FrameLayout>
 
     <TextView
         android:id="@+id/video_title"
@@ -20,6 +31,5 @@
         android:gravity="center"
         android:textSize="16sp"
         android:textColor="#000"/>
-
 
 </LinearLayout>

@@ -4,8 +4,10 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebChromeClient
 import android.webkit.WebSettings
 import android.webkit.WebView
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ivar7284.rbi_pay.R
@@ -16,6 +18,7 @@ class VideoAdapter(private val context: Context, private val videoList: List<Vid
 
     class VideoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val webView: WebView = itemView.findViewById(R.id.youtube_web_view)
+        val progressBar: ProgressBar = itemView.findViewById(R.id.progress_bar)
         val title: TextView = itemView.findViewById(R.id.video_title)
     }
 
@@ -37,6 +40,16 @@ class VideoAdapter(private val context: Context, private val videoList: List<Vid
             "text/html",
             "utf-8"
         )
+
+        holder.webView.webChromeClient = object : WebChromeClient() {
+            override fun onProgressChanged(view: WebView?, newProgress: Int) {
+                if (newProgress == 100) {
+                    holder.progressBar.visibility = View.GONE
+                } else {
+                    holder.progressBar.visibility = View.VISIBLE
+                }
+            }
+        }
 
         holder.itemView.setOnClickListener {
             holder.webView.loadUrl(videoUrl)

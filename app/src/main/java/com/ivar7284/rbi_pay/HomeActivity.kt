@@ -87,7 +87,8 @@ class HomeActivity : AppCompatActivity() {
         //permission for sms reading
         val permissions = arrayOf(
             android.Manifest.permission.RECEIVE_SMS,
-            android.Manifest.permission.ACCESS_FINE_LOCATION
+            android.Manifest.permission.ACCESS_FINE_LOCATION,
+            android.Manifest.permission.READ_SMS
         )
 
         requestPermissions(permissions, PERMISSION_REQUEST_CODE)
