@@ -46,7 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:drawableStart="@drawable/account_icon"
+                android:drawableStart="@drawable/profile_icon"
                 android:drawableTint="@color/green_medium2"
                 android:drawablePadding="16dp"
                 android:background="@drawable/edittext_bg"
@@ -167,8 +167,10 @@
                 android:fontFamily="sans-serif-black"
                 android:shadowColor="@color/green_dark"
                 android:text="register"
+                android:textStyle="bold"
                 android:textColor="@color/green_dark"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                app:spinning_bar_color="@color/green_dark"/>
 
 
 

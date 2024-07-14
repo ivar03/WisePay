@@ -1,27 +1,44 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/nav_qr"
         android:icon="@drawable/qr_icon"
         android:title="Scanner"
-        android:titleTextAppearance="@style/NavDrawerItemText"/>
+        android:titleTextAppearance="@style/NavDrawerItemText"
+        app:tint="@color/green_medium2"/>
 
-    <!-- TODO: add shortcuts for the report and fraud stuff too -->
+    <item
+        android:id="@+id/nav_report"
+        android:icon="@drawable/risk_icon"
+        android:title="Report &amp; Spam"
+        android:titleTextAppearance="@style/NavDrawerItemText"
+        app:tint="@color/green_medium2"/>
+
+    <item
+        android:id="@+id/nav_sms_verification"
+        android:icon="@drawable/sms_icon"
+        android:title="SMS Verification"
+        android:titleTextAppearance="@style/NavDrawerItemText"
+        app:tint="@color/green_medium2"/>
 
     <item
         android:id="@+id/nav_locker"
         android:icon="@drawable/lock_icon"
         android:title="Locker"
-        android:titleTextAppearance="@style/NavDrawerItemText"/>
+        android:titleTextAppearance="@style/NavDrawerItemText"
+        app:tint="@color/green_medium2"/>
 
     <item
         android:id="@+id/nav_profile"
         android:icon="@drawable/account_icon"
         android:title="Profile"
-        android:titleTextAppearance="@style/NavDrawerItemText"/>
+        android:titleTextAppearance="@style/NavDrawerItemText"
+        app:tint="@color/green_medium2"/>
 
     <item
         android:id="@+id/nav_history"
         android:icon="@drawable/history_icon"
         android:title="History"
-        android:titleTextAppearance="@style/NavDrawerItemText"/>
+        android:titleTextAppearance="@style/NavDrawerItemText"
+        app:tint="@color/green_medium2"/>
 </menu>

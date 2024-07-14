@@ -118,8 +118,10 @@
                 android:fontFamily="sans-serif-black"
                 android:shadowColor="@color/green_dark"
                 android:text="login"
+                android:textStyle="bold"
                 android:textColor="@color/green_dark"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                app:spinning_bar_color="@color/green_dark"/>
 
 
         </LinearLayout>

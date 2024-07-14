@@ -26,6 +26,7 @@
 
     <application
         android:allowBackup="true"
+        android:configChanges="uiMode"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -35,6 +36,9 @@
         android:theme="@style/Theme.RBI_Pay"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".SmsVerificationActivity"
+            android:exported="false" />
         <activity
             android:name=".BankTransferActivity"
             android:exported="false" />

@@ -1,10 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BankTransferActivity">
+    tools:context=".BankTransferActivity"
+    android:background="@color/green_light">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:id="@+id/back_btn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/back_icon"
+        app:tint="@color/green_medium2"
+        android:padding="8dp"
+        android:layout_margin="16dp"/>
+
+    <TextView
+        android:id="@+id/heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enter recipient details: "
+        android:textColor="@color/green_dark"
+        android:textSize="18sp"
+        android:layout_below="@+id/back_btn"
+        android:layout_marginHorizontal="30dp"/>
+
+    <EditText
+        android:id="@+id/account_number_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edittext_bg"
+        android:layout_marginHorizontal="30dp"
+        android:layout_below="@+id/heading"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/green_dark"
+        android:hint="Account Number"
+        android:padding="16dp"
+        android:textColorHint="@color/green_dark"
+        android:inputType="text"/>
+
+    <EditText
+        android:id="@+id/ifsc_code_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edittext_bg"
+        android:layout_marginHorizontal="30dp"
+        android:layout_below="@+id/account_number_et"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/green_dark"
+        android:hint="IFSC Code"
+        android:padding="16dp"
+        android:textColorHint="@color/green_dark"
+        android:inputType="text"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/continue_button"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="Continue"
+        android:textColor="@color/green_light"
+        android:background="@color/green_dark"
+        android:layout_below="@id/ifsc_code_et"
+        android:layout_centerHorizontal="true"
+        android:layout_marginVertical="20dp"/>
+
+</RelativeLayout>

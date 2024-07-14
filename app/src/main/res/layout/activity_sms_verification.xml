@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MobileTransferActivity"
+    tools:context=".SmsVerificationActivity"
     android:background="@color/green_light">
 
     <ImageView
@@ -21,50 +21,30 @@
         android:id="@+id/heading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Enter the phone number:"
-        android:textSize="18sp"
+        android:text="SMS Verification:"
+        android:textSize="20sp"
         android:textColor="@color/green_dark"
         android:textStyle="bold"
         android:layout_marginHorizontal="30dp"
-        android:layout_marginBottom="20dp"
         android:layout_below="@+id/back_btn"/>
-
-    <EditText
-        android:id="@+id/search_bar_et"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/search_box"
-        android:hint="Search"
-        android:textColorHint="@color/green_dark"
-        android:textColor="@color/green_dark"
-        android:textSize="16sp"
-        android:inputType="number"
-        android:paddingHorizontal="25dp"
-        android:drawableEnd="@drawable/search_icon"
-        android:drawableTint="@color/green_dark"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginBottom="20dp"
-        android:layout_below="@+id/heading"/>
 
     <TextView
         android:id="@+id/subHeading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Search Results:"
+        android:text="verifies if the message is fraud or not"
+        android:textSize="15sp"
         android:textColor="@color/green_dark"
-        android:textSize="16sp"
-        android:visibility="gone"
+        android:textStyle="bold"
         android:layout_marginHorizontal="30dp"
-        android:layout_below="@+id/search_bar_et"/>
+        android:layout_below="@+id/heading"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/mobile_search_rv"
+        android:id="@+id/sms_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/subHeading"
-        android:visibility="gone"
         android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="10dp"/>
-
+        android:layout_below="@id/subHeading"
+        android:layout_marginTop="20dp"/>
 
 </RelativeLayout>

@@ -1,10 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ReportActivity">
+    tools:context=".ReportActivity"
+    android:background="@color/green_light">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:id="@+id/back_btn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/back_icon"
+        app:tint="@color/green_medium2"
+        android:padding="8dp"
+        android:layout_margin="16dp"/>
+
+    <TextView
+        android:id="@+id/heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/back_btn"
+        android:text="Fill all the details:"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/green_dark"
+        android:layout_marginHorizontal="30dp"
+        />
+
+    <EditText
+        android:id="@+id/transaction_id_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/heading"
+        android:background="@drawable/edittext_bg"
+        android:padding="16dp"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="10dp"
+        android:hint="Transaction ID"
+        android:textColorHint="@color/green_dark"
+        android:textColor="@color/green_dark"
+        android:inputType="text"/>
+
+    <EditText
+        android:id="@+id/description_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/transaction_id_et"
+        android:background="@drawable/edittext_bg"
+        android:padding="16dp"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="10dp"
+        android:hint="Description"
+        android:textColorHint="@color/green_dark"
+        android:textColor="@color/green_dark"
+        android:inputType="textMultiLine"/>
+
+    <TextView
+        android:id="@+id/subHeading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/description_et"
+        android:text="Tap below to select images: (upto 2)"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/green_dark"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="20dp"/>
+
+    <LinearLayout
+        android:id="@+id/pick_images_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/subHeading"
+        android:gravity="center"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:id="@+id/image1"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:background="@drawable/edittext_bg"
+            android:src="@drawable/images_icon"
+            android:padding="20dp"
+            android:layout_marginVertical="3dp"
+            android:layout_marginHorizontal="15dp"/>
+        <ImageView
+            android:id="@+id/image2"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/images_icon"
+            android:padding="20dp"
+            android:layout_marginVertical="3dp"
+            android:layout_marginHorizontal="15dp"
+            android:background="@drawable/edittext_bg"/>
+
+    </LinearLayout>
+
+    <br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+        android:id="@+id/report_button"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:backgroundTint="@color/green_dark"
+        android:text="Report"
+        android:textColor="@color/green_light"
+        app:spinning_bar_color="@color/green_medium"
+        android:textSize="16sp"
+        android:layout_below="@+id/pick_images_ll"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:elevation="10dp"
+        />
+
+</RelativeLayout>

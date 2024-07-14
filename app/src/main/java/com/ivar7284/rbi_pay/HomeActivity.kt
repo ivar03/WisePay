@@ -53,7 +53,6 @@ class HomeActivity : AppCompatActivity() {
             if (isGranted) {
                 showCamera()
             } else {
-                // Handle the case when the permission is not granted
                 Toast.makeText(this, "Camera Permission required", Toast.LENGTH_SHORT)
                     .show()
             }
@@ -111,6 +110,13 @@ class HomeActivity : AppCompatActivity() {
             when (menuItem.itemId) {
                 R.id.nav_qr -> {
                     checkPermissionCamera(this)
+                }
+                R.id.nav_report -> {
+                    startActivity(Intent(applicationContext, ReportActivity::class.java))
+                }
+
+                R.id.nav_sms_verification -> {
+                    startActivity(Intent(applicationContext, SmsVerificationActivity::class.java))
                 }
 
                 R.id.nav_locker -> {
