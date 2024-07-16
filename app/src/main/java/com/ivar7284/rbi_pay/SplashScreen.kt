@@ -2,7 +2,9 @@ package com.ivar7284.rbi_pay
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
@@ -42,7 +44,7 @@ class SplashScreen : AppCompatActivity() {
         val callback = object : BiometricPrompt.AuthenticationCallback() {
             override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
                 super.onAuthenticationError(errorCode, errString)
-                navigateToMainActivity()
+                showFailureToastAndCloseApp()
             }
 
             override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
@@ -52,7 +54,7 @@ class SplashScreen : AppCompatActivity() {
 
             override fun onAuthenticationFailed() {
                 super.onAuthenticationFailed()
-                navigateToMainActivity()
+                showRetryDialog()
             }
         }
         return BiometricPrompt(this, executor, callback)
@@ -64,6 +66,30 @@ class SplashScreen : AppCompatActivity() {
             .setSubtitle("Log in using your biometric credential")
             .setDeviceCredentialAllowed(true) // allow fallback to device PIN/password
             .build()
+    }
+
+    private fun showRetryDialog() {
+        runOnUiThread {
+            AlertDialog.Builder(this)
+                .setTitle("Authentication Failed")
+                .setMessage("Biometric authentication failed. Would you like to try again?")
+                .setPositiveButton("Retry") { _, _ ->
+                    val biometricPrompt = createBiometricPrompt()
+                    val promptInfo = createBiometricPromptInfo()
+                    biometricPrompt.authenticate(promptInfo)
+                }
+                .setNegativeButton("Cancel") { _, _ ->
+                    showFailureToastAndCloseApp()
+                }
+                .show()
+        }
+    }
+
+    private fun showFailureToastAndCloseApp() {
+        runOnUiThread {
+            Toast.makeText(this, "App can't be opened without authentication", Toast.LENGTH_LONG).show()
+            finish()
+        }
     }
 
     private fun navigateToMainActivity() {

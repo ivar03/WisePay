@@ -5,13 +5,16 @@
     android:background="@color/green_light"
     android:elevation="10dp"
     android:layout_marginHorizontal="10dp"
-    android:layout_marginTop="10dp">
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="5dp">
 
     <RelativeLayout
+        android:id="@+id/main_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:layout_centerVertical="true"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:layout_centerHorizontal="true">
         <ImageView
             android:id="@+id/transaction_img"
@@ -63,6 +66,7 @@
                 />
 
             <TextView
+                android:id="@+id/transaction_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Dated"
@@ -74,5 +78,49 @@
         </LinearLayout>
 
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/transaction_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/green_dark"
+        android:hint="Transaction ID: 123456"
+        android:layout_below="@+id/main_2"
+        android:layout_marginHorizontal="20dp"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/customer_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/green_dark"
+        android:hint="Customer Location: Delhi"
+        android:layout_below="@+id/transaction_id"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="2dp"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/customer_account_balance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/green_dark"
+        android:hint="Account Balance: 1234"
+        android:layout_below="@+id/customer_location"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="2dp"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/transaction_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/green_dark"
+        android:hint="Transaction Time: 123456"
+        android:layout_below="@+id/customer_account_balance"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="10dp"
+        android:textSize="16sp"/>
 
 </RelativeLayout>

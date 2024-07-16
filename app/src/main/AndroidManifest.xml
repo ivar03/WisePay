@@ -59,10 +59,6 @@
             android:name=".PaymentActivity"
             android:exported="false" />
         <activity
-            android:name=".ScannerActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ProfileActivity"
             android:configChanges="locale|layoutDirection"
             android:exported="false"

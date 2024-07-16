@@ -3,6 +3,7 @@ package com.ivar7284.rbi_pay
 import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
@@ -10,6 +11,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -19,9 +21,18 @@ import androidx.core.view.WindowInsetsCompat
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.ivar7284.rbi_pay.utils.ApiService
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
 import okhttp3.RequestBody
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.io.ByteArrayOutputStream
 
 class ReportActivity : AppCompatActivity() {
@@ -34,6 +45,8 @@ class ReportActivity : AppCompatActivity() {
     private lateinit var image1: ImageView
     private lateinit var image2: ImageView
     private lateinit var reportBtn: CircularProgressButton
+
+    private lateinit var sharedPreferences: SharedPreferences
 
     private val PICK_IMAGES_REQUEST = 123
     private val selectedImages = mutableListOf<Uri>()
@@ -67,7 +80,76 @@ class ReportActivity : AppCompatActivity() {
                 showAlertDialog()
             }else{
                 reportBtn.startAnimation()
-                //
+                val accessToken = sharedPreferences.getString("access_token", null)
+                val okHttpClient = OkHttpClient.Builder()
+                    .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                    .addInterceptor { chain ->
+                        val original = chain.request()
+                        val requestBuilder = original.newBuilder()
+                            .header("Authorization", "Bearer $accessToken")
+                            .method(original.method, original.body)
+                        val request = requestBuilder.build()
+                        chain.proceed(request)
+                    }
+                    .build()
+
+                //setting up retrofit
+                val retrofit = Retrofit.Builder()
+                    .baseUrl("https://rbihackathon2024-production.up.railway.app/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(okHttpClient)
+                    .build()
+
+                val apiService = retrofit.create(ApiService::class.java)
+                Log.i("requestData", selectedImages.toString())
+
+                val transactionIdRequestBody = createPartFromString(transactionId.text.toString())
+                val descriptionRequestBody = createPartFromString(description.text.toString())
+
+                val image1Part = imageToRequestBody("product_image_1",image1, "image1.jpg")
+                val image2Part = imageToRequestBody("product_image_2",image2, "image2.jpg")
+
+                // Make the API call using CoroutineScope
+                CoroutineScope(Dispatchers.IO).launch {
+                    try {
+                        val response = apiService.uploadData(
+                            transactionIdRequestBody,
+                            descriptionRequestBody,
+                            image1Part,
+                            image2Part,
+                        )
+
+                        withContext(Dispatchers.Main) {
+                            if (response != null) {
+                                //code 400-bad req 500-internal server error
+                                when (response.code()) {
+                                    201 -> {
+                                        Log.e("uploading success", "Data uploaded successfully")
+                                        reportBtn.revertAnimation()
+                                        Toast.makeText(applicationContext, "Data uploaded successfully", Toast.LENGTH_SHORT).show()
+                                        showCustomAlertDialog("Report successful")
+                                    }
+                                    else -> {
+                                        val errorBody = response.errorBody()?.string()
+                                        reportBtn.revertAnimation()
+                                        Log.e("uploading error", "Error Code: ${response.code()}, Message: ${response.message()}, Error Body: $errorBody")
+                                        Toast.makeText(applicationContext, "Error: ${response.message()}", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+
+                            } else {
+                                reportBtn.revertAnimation()
+                                Toast.makeText(applicationContext, "Error: Response is null", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    } catch (e: Exception) {
+                        withContext(Dispatchers.Main) {
+                            reportBtn.revertAnimation()
+                            Log.e("uploading error", "Error: ${e.message.toString()}")
+                            Toast.makeText(applicationContext, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
             }
         }
 
@@ -77,6 +159,16 @@ class ReportActivity : AppCompatActivity() {
             finish()
         }
 
+    }
+
+    private fun showCustomAlertDialog(s: String) {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Reporting")
+            .setMessage(s)
+            .setPositiveButton("ok") { dialogInterface: DialogInterface, _: Int ->
+                dialogInterface.dismiss()
+            }
+            .show()
     }
 
     private fun pickImages(){

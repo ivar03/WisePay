@@ -1,6 +1,8 @@
 package com.ivar7284.rbi_pay
 
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
@@ -10,6 +12,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Request
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 
 class MobileTransferActivity : AppCompatActivity() {
 
@@ -17,6 +22,8 @@ class MobileTransferActivity : AppCompatActivity() {
     private lateinit var mobileSearch: EditText
     private lateinit var subHeading: TextView // for visibility
     private lateinit var searchResult: RecyclerView
+
+    private val URL = "https://rbihackathon2024-production.up.railway.app/user-detail/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +40,35 @@ class MobileTransferActivity : AppCompatActivity() {
         subHeading = findViewById(R.id.subHeading) //make visible
         searchResult = findViewById(R.id.mobile_search_rv) // make visible
 
+        //fetch user detail
+        val accessToken = getAccessToken()
+
+        if (accessToken.isNullOrEmpty()) {
+            Log.e("fetchData", "Access token is null or empty")
+            return
+        }
+
+        val requestQueue = Volley.newRequestQueue(this)
+        val jsonObjectRequest = object : JsonObjectRequest(
+            Request.Method.GET, URL, null,
+            { response ->
+                val email = response.getString("email")
+                val phone = response.getString("number")
+                val upiId = response.getString("upi_id")
+
+                Log.i("upi id", upiId)
+            },
+            { error ->
+                Log.i("error fetching", error.message.toString())
+            }) {
+            override fun getHeaders(): MutableMap<String, String> {
+                val headers = HashMap<String, String>()
+                headers["Authorization"] = "Bearer $accessToken"
+                return headers
+            }
+        }
+        requestQueue.add(jsonObjectRequest)
+
         //back button
         backBtn = findViewById(R.id.back_btn)
         backBtn.setOnClickListener {
@@ -46,5 +82,9 @@ class MobileTransferActivity : AppCompatActivity() {
         finish()
     }
 
+    private fun getAccessToken(): String? {
+        val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("access_token", null)
+    }
 
 }

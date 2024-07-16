@@ -8,7 +8,6 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +17,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ivar7284.rbi_pay.BankTransferActivity
@@ -48,16 +48,19 @@ class HomeFragment : Fragment() {
         VideoItem("eyV020bXW4s?si=RwL7r3qqYalxhtyI", "Video 1"),
         VideoItem("AABDnX2xhs8?si=kQdHOJE-jHylIttU", "Video 2"),
         VideoItem("9A6AGfSkjl8?si=LkFeUiy_v3xVqmvK", "Video 3"),
-        VideoItem("3RMWM4oNQ8A?si=d7K661i6t5VfZ8bt", "Video 4"),
+        VideoItem("3RMWM4oNQ8A?si=d7K661i6t5VfZ8bt", "Video 4")
     )
     private val handler = Handler(Looper.getMainLooper())
     private var currentIndex = 0
+    private var autoScrollEnabled = true
 
     private val runnable = object : Runnable {
         override fun run() {
-            if (currentIndex == videoAdapter.itemCount) currentIndex = 0
-            videoRecyclerView.smoothScrollToPosition(currentIndex++)
-            handler.postDelayed(this, 5000) // 5 seconds delay
+            if (autoScrollEnabled) {
+                if (currentIndex == videoAdapter.itemCount) currentIndex = 0
+                videoRecyclerView.smoothScrollToPosition(currentIndex++)
+                handler.postDelayed(this, 5000) // 5 seconds delay
+            }
         }
     }
 
@@ -66,8 +69,7 @@ class HomeFragment : Fragment() {
             if (isGranted) {
                 showCamera()
             } else {
-                Toast.makeText(requireContext(), "Camera Permission required", Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(requireContext(), "Camera Permission required", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -95,7 +97,9 @@ class HomeFragment : Fragment() {
         videoRecyclerView = views.findViewById(R.id.video_playback_rv)
         videoRecyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        videoAdapter = VideoAdapter(requireContext(), videoList)
+        videoAdapter = VideoAdapter(requireContext(), videoList) {
+            stopAutoScroll()
+        }
         videoRecyclerView.adapter = videoAdapter
 
         sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
@@ -130,7 +134,6 @@ class HomeFragment : Fragment() {
         vDebitCard.setOnClickListener {
             startActivity(Intent(requireContext(), VirtualDebitActivity::class.java))
         }
-
 
         handler.post(runnable)
         return views
@@ -174,8 +177,11 @@ class HomeFragment : Fragment() {
         scanLauncher.launch(options)
     }
 
+    private fun stopAutoScroll() {
+        autoScrollEnabled = false
+    }
+
     private fun getAccessToken(): String? {
         return sharedPreferences.getString("access_token", null)
     }
-
 }

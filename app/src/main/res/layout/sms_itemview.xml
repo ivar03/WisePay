@@ -44,6 +44,7 @@
         android:id="@+id/risk_icon"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:visibility="gone"
         android:background="@drawable/risk_icon"
         android:backgroundTint="@color/red"
         android:layout_alignParentEnd="true"

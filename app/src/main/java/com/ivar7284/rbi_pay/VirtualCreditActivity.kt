@@ -1,6 +1,10 @@
 package com.ivar7284.rbi_pay
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -12,16 +16,18 @@ import androidx.appcompat.widget.AppCompatButton
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton
+import com.android.volley.Request
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 
 class VirtualCreditActivity : AppCompatActivity() {
 
     private lateinit var backBtn: ImageView
-    private lateinit var card_no_ll: LinearLayout //for visibility
-    private lateinit var card_cvv_ll: LinearLayout //for visibility
-    private lateinit var cardNo: TextView
-    private lateinit var cardCvv: TextView
     private lateinit var generateBtn: CircularProgressButton
 
+    private val URL = "https://rbihackathon2024-production.up.railway.app/accounts/generate-random-credit-card/"
+
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -33,15 +39,11 @@ class VirtualCreditActivity : AppCompatActivity() {
         }
 
         //generate button (main logic)
-        card_no_ll = findViewById(R.id.card_number_ll)
-        card_cvv_ll = findViewById(R.id.card_cvv_ll)
-        cardNo = findViewById(R.id.card_number_tv)
-        cardCvv = findViewById(R.id.card_cvv_tv)
         generateBtn = findViewById(R.id.generate_button)
         generateBtn.setOnClickListener {
             //backend call and updating the visibility and text of text views
             generateBtn.startAnimation()
-            Toast.makeText(this, "Not yet implemented", Toast.LENGTH_SHORT).show()
+            fetchData()
         }
 
         //back button
@@ -49,6 +51,48 @@ class VirtualCreditActivity : AppCompatActivity() {
         backBtn.setOnClickListener {
             finish()
         }
+    }
+
+    private fun fetchData() {
+        val accessToken = getAccessToken()
+        if (accessToken.isNullOrEmpty()) {
+            Log.e("fetchData", "Access token is null or empty")
+            return
+        }
+
+        val requestQueue = Volley.newRequestQueue(this)
+        val jsonObjectRequest = object : JsonObjectRequest(
+            Request.Method.GET, URL, null,
+            { response ->
+                val cardNo = response.getString("card_number")
+                val cvv = response.getString("cvv")
+                val pin = response.getString("pin")
+
+                findViewById<LinearLayout>(R.id.card_number_ll).visibility = View.VISIBLE
+                findViewById<LinearLayout>(R.id.card_pin_ll).visibility = View.VISIBLE
+                findViewById<LinearLayout>(R.id.card_cvv_ll).visibility = View.VISIBLE
+
+                findViewById<TextView>(R.id.card_number_tv).text = cardNo
+                findViewById<TextView>(R.id.card_cvv_tv).text = cvv
+                findViewById<TextView>(R.id.card_pin_tv).text = pin
+
+                generateBtn.revertAnimation()
+            },
+            { error ->
+                Log.i("error fetching", error.message.toString())
+            }) {
+            override fun getHeaders(): MutableMap<String, String> {
+                val headers = HashMap<String, String>()
+                headers["Authorization"] = "Bearer $accessToken"
+                return headers
+            }
+        }
+        requestQueue.add(jsonObjectRequest)
+    }
+
+    private fun getAccessToken(): String? {
+        val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("access_token", null)
     }
 
     override fun onBackPressed() {

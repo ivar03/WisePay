@@ -65,8 +65,8 @@
             android:id="@+id/card_cvv_ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:orientation="horizontal"
+            android:visibility="gone"
             android:gravity="center">
             <TextView
                 android:id="@+id/title_2"
@@ -83,6 +83,34 @@
                 android:layout_height="wrap_content"
                 android:focusable="true"
                 android:text="123"
+                android:textSize="20sp"
+                android:contextClickable="true"
+                android:clickable="true"
+                android:textColor="@color/green_medium2"
+                android:textAlignment="center"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/card_pin_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/title_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pin "
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@color/green_medium2"
+                android:textAlignment="center"/>
+            <TextView
+                android:id="@+id/card_pin_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:text="123456"
                 android:textSize="20sp"
                 android:contextClickable="true"
                 android:clickable="true"
