@@ -60,6 +60,7 @@ class HistoryFragment : Fragment() {
             override fun getHeaders(): MutableMap<String, String> {
                 val headers = HashMap<String, String>()
                 headers["Authorization"] = "Bearer $accessToken"
+                Log.i("header", headers.toString())
                 return headers
             }
         }
@@ -69,20 +70,21 @@ class HistoryFragment : Fragment() {
     private fun parseTransactions(jsonArray: JSONArray): List<Transaction> {
         val transactions = mutableListOf<Transaction>()
         for (i in 0 until jsonArray.length()) {
-            val jsonObject = jsonArray.getJSONObject(i)
+            val jsonObject = jsonArray.optJSONObject(i) ?: continue
+
             val transaction = Transaction(
-                id = jsonObject.getInt("id"),
-                TransactionID = jsonObject.getString("TransactionID"),
-                sender_phnno = jsonObject.getLong("sender_phnno"),
-                receiver_phno = jsonObject.getLong("receiver_phno"),
-                CustomerID = jsonObject.getString("CustomerID"),
-                CustomerDOB = jsonObject.getString("CustomerDOB"),
-                CustGender = jsonObject.getString("CustGender"),
-                CustLocation = jsonObject.getString("CustLocation"),
-                CustAccountBalance = jsonObject.getDouble("CustAccountBalance"),
-                TransactionDate = jsonObject.getString("TransactionDate"),
-                TransactionTime = jsonObject.getLong("TransactionTime"),
-                TransactionAmount = jsonObject.getDouble("TransactionAmount")
+                id = jsonObject.optInt("id", -1),
+                TransactionID = jsonObject.optString("TransactionID", ""),
+                sender_phnno = jsonObject.optLong("sender_phnno", -1),
+                receiver_phno = jsonObject.optLong("receiver_phno", -1),
+                CustomerID = jsonObject.optString("CustomerID", ""),
+                CustomerDOB = jsonObject.optString("CustomerDOB", ""),
+                CustGender = jsonObject.optString("CustGender", ""),
+                CustLocation = jsonObject.optString("CustLocation", ""),
+                CustAccountBalance = jsonObject.optDouble("CustAccountBalance", 0.0),
+                TransactionDate = jsonObject.optString("TransactionDate", ""),
+                TransactionTime = jsonObject.optLong("TransactionTime", -1),
+                TransactionAmount = jsonObject.optDouble("TransactionAmount", 0.0)
             )
             transactions.add(transaction)
         }

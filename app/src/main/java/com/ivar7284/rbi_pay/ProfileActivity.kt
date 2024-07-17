@@ -21,7 +21,7 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var backBtn: ImageButton
     private lateinit var logoutBtn: CircularProgressButton
 
-    private val URL = "https://rbihackathon2024-production.up.railway.app/user/user-details"
+    private val URL = "https://rbihackathon2024-production.up.railway.app/user/user-details/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,9 +47,11 @@ class ProfileActivity : AppCompatActivity() {
             { response ->
                 val email = response.getString("email")
                 val phone = response.getString("phn")
+                val name = response.getString("name")
 
                 findViewById<TextView>(R.id.Pemail).text = "Email: $email"
                 findViewById<TextView>(R.id.Pphone).text = "Mobile Number: $phone"
+                findViewById<TextView>(R.id.PName).text = name
             },
             { error ->
                 Log.i("error fetching", error.message.toString())

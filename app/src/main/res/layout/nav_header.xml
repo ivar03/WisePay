@@ -23,9 +23,9 @@
         android:layout_height="wrap_content"
         android:text="Name"
         android:textColor="@color/white"
+        android:layout_above="@+id/nav_header_subtitle"
         android:textStyle="bold"
         android:textSize="18sp"
-        android:layout_above="@+id/nav_header_subtitle"
         android:layout_marginTop="8dp"
         android:gravity="center"/>
 
@@ -33,8 +33,18 @@
         android:id="@+id/nav_header_subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_above="@+id/nav_header_subtitle_2"
         android:gravity="center"
         android:text="Email"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/nav_header_subtitle_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:text="UPI ID"
+        android:textSize="12sp"
         android:textColor="@color/white" />
 </RelativeLayout>

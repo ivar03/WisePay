@@ -10,7 +10,7 @@ import retrofit2.http.Part
 
 interface ApiService {
     @Multipart
-    @POST("report/")
+    @POST("accounts/report/")
     suspend fun uploadData(
         @Part("transaction_id") sellingOffer: RequestBody?,
         @Part("description") additionalOffer: RequestBody?,

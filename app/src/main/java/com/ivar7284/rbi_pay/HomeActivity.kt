@@ -1,5 +1,6 @@
 package com.ivar7284.rbi_pay
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -8,6 +9,7 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -22,6 +24,9 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import com.android.volley.Request
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import com.google.android.material.navigation.NavigationView
 import com.ivar7284.rbi_pay.fragments.HistoryFragment
 import com.ivar7284.rbi_pay.fragments.HomeFragment
@@ -69,6 +74,7 @@ class HomeActivity : AppCompatActivity() {
             }
         }
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -106,6 +112,9 @@ class HomeActivity : AppCompatActivity() {
         drawerButton.setOnClickListener {
             drawerLayout.openDrawer(GravityCompat.START)
         }
+
+        //giving values to the nav drawer
+        fetchUserData()
 
         navigationView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
@@ -169,6 +178,48 @@ class HomeActivity : AppCompatActivity() {
             checkPermissionCamera(this)
         }
 
+    }
+
+    private fun fetchUserData() {
+        val url = "https://rbihackathon2024-production.up.railway.app/user/user-details/"
+
+        val accessToken = getAccessToken()
+        if (accessToken.isNullOrEmpty()) {
+            Log.e("fetchData", "Access token is null or empty")
+            return
+        }
+
+        val requestQueue = Volley.newRequestQueue(this)
+        val jsonObjectRequest = object : JsonObjectRequest(
+            Request.Method.GET, url, null,
+            { response ->
+                val upi = response.getString("upi_id")
+                val email = response.getString("email")
+                val name = response.getString("name")
+
+                saveUPIId(upi)
+
+                findViewById<TextView>(R.id.nav_header_title).text = name
+                findViewById<TextView>(R.id.nav_header_subtitle).text = email
+                findViewById<TextView>(R.id.nav_header_subtitle_2).text = upi
+            },
+            { error ->
+                Log.i("error fetching", error.message.toString())
+            }) {
+            override fun getHeaders(): MutableMap<String, String> {
+                val headers = HashMap<String, String>()
+                headers["Authorization"] = "Bearer $accessToken"
+                return headers
+            }
+        }
+        requestQueue.add(jsonObjectRequest)
+    }
+
+    private fun saveUPIId(upi: String) {
+        val sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("upi_id", upi)
+        editor.apply()
     }
 
     private fun checkPermissionCamera(context: Context) {

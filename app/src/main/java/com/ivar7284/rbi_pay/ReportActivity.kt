@@ -61,6 +61,9 @@ class ReportActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        //initializing shared prefs
+        sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
+
         //pick images
         image1 = findViewById(R.id.image1)
         image2 = findViewById(R.id.image2)
@@ -109,7 +112,6 @@ class ReportActivity : AppCompatActivity() {
                 val image1Part = imageToRequestBody("product_image_1",image1, "image1.jpg")
                 val image2Part = imageToRequestBody("product_image_2",image2, "image2.jpg")
 
-                // Make the API call using CoroutineScope
                 CoroutineScope(Dispatchers.IO).launch {
                     try {
                         val response = apiService.uploadData(
@@ -121,7 +123,6 @@ class ReportActivity : AppCompatActivity() {
 
                         withContext(Dispatchers.Main) {
                             if (response != null) {
-                                //code 400-bad req 500-internal server error
                                 when (response.code()) {
                                     201 -> {
                                         Log.e("uploading success", "Data uploaded successfully")

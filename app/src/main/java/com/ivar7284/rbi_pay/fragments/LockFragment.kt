@@ -1,14 +1,15 @@
 package com.ivar7284.rbi_pay.fragments
 
-import android.annotation.SuppressLint
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
@@ -25,10 +26,10 @@ class LockFragment : Fragment() {
     private lateinit var upiCheckBox: CheckBox
 
     private lateinit var confirmationBtn: CircularProgressButton
+    private lateinit var sharedPreferences: SharedPreferences
 
-    private val URL = "https://rbihackathon2024-production.up.railway.app/locking/"
+    private val URL = "https://rbihackathon2024-production.up.railway.app/accounts/update-lock-status/"
 
-    @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,6 +41,9 @@ class LockFragment : Fragment() {
         netBankingCheckBox = views.findViewById(R.id.internet_banking_checkbox)
         upiCheckBox = views.findViewById(R.id.upi_checkbox)
 
+        // Load checkbox states from SharedPreferences or response data
+        loadCheckboxStates()
+
         //sending data button
         confirmationBtn = views.findViewById(R.id.confirmation_btn)
         confirmationBtn.setOnClickListener {
@@ -49,18 +53,30 @@ class LockFragment : Fragment() {
             val netBankingBool = netBankingCheckBox.isChecked
             val upiBool = upiCheckBox.isChecked
 
-            Log.i("bool values", "Credit Card: $creditBool")
-            Log.i("bool values", "Debit Card: $debitBool")
-            Log.i("bool values", "Net Banking: $netBankingBool")
-            Log.i("bool values", "UPI: $upiBool")
-
             //send data
-            sendData(creditBool,debitBool,netBankingBool,upiBool)
-
-            confirmationBtn.revertAnimation()
+            sendData(creditBool, debitBool, netBankingBool, upiBool)
         }
 
         return views
+    }
+
+    private fun loadCheckboxStates() {
+        val sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        creditCardCheckBox.isChecked = sharedPreferences.getBoolean("credit_checked", false)
+        debitCardCheckBox.isChecked = sharedPreferences.getBoolean("debit_checked", false)
+        netBankingCheckBox.isChecked = sharedPreferences.getBoolean("net_banking_checked", false)
+        upiCheckBox.isChecked = sharedPreferences.getBoolean("upi_checked", false)
+    }
+
+    private fun saveCheckboxStates(credit: Boolean, debit: Boolean, netBanking: Boolean, upi: Boolean) {
+        val sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        with(sharedPreferences.edit()) {
+            putBoolean("credit_checked", credit)
+            putBoolean("debit_checked", debit)
+            putBoolean("net_banking_checked", netBanking)
+            putBoolean("upi_checked", upi)
+            apply()
+        }
     }
 
     private fun sendData(credit: Boolean, debit: Boolean, netBanking: Boolean, upi: Boolean) {
@@ -70,25 +86,56 @@ class LockFragment : Fragment() {
         req.put("net_banking", netBanking)
         req.put("upi", upi)
 
-        Log.i("request json", req.toString())
+        Log.d("SendData Request", req.toString()) // Logging the request JSON
+
+        val accessToken = getAccessToken()
+        Log.i("accesstoken", accessToken.toString())
 
         val requestQueue = Volley.newRequestQueue(requireContext())
-        val jsonObjectRequest = JsonObjectRequest(
-            Request.Method.POST, URL, req,
+        val jsonObjectRequest = object : JsonObjectRequest(
+            Method.POST, URL, req,
             { response ->
                 try {
-                    val message = response.getString("message")
-                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                    Log.d("SendData Response", response.toString()) // Logging the response JSON
+
+                    // Update checkboxes based on response
+                    creditCardCheckBox.isChecked = response.getBoolean("credit")
+                    debitCardCheckBox.isChecked = response.getBoolean("debit")
+                    netBankingCheckBox.isChecked = response.getBoolean("net_banking")
+                    upiCheckBox.isChecked = response.getBoolean("upi")
+
+                    // Save checkbox states
+                    saveCheckboxStates(
+                        response.getBoolean("credit"),
+                        response.getBoolean("debit"),
+                        response.getBoolean("net_banking"),
+                        response.getBoolean("upi")
+                    )
+
+                    confirmationBtn.revertAnimation()
                 } catch (e: JSONException) {
                     e.printStackTrace()
                     Log.e("JSON Error", e.message.toString())
+                    confirmationBtn.revertAnimation()
                 }
             },
             { error ->
                 Log.e("Volley Error", error.message.toString())
-                Toast.makeText(requireContext(), "server error!", Toast.LENGTH_SHORT).show()
-            })
+                Toast.makeText(requireContext(), "Server error!", Toast.LENGTH_SHORT).show()
+            }
+        ) {
+            override fun getHeaders(): MutableMap<String, String> {
+                val headers = HashMap<String, String>()
+                headers["Authorization"] = "Bearer $accessToken"
+                return headers
+            }
+        }
 
         requestQueue.add(jsonObjectRequest)
+    }
+
+    private fun getAccessToken(): String? {
+        val sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        return sharedPreferences.getString("access_token", null)
     }
 }

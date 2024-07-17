@@ -1,12 +1,21 @@
 package com.ivar7284.rbi_pay.adapters
 
+import android.content.Context
+import android.content.DialogInterface
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
+import com.android.volley.Request
+import com.android.volley.toolbox.JsonObjectRequest
+import com.android.volley.toolbox.Volley
 import com.ivar7284.rbi_pay.R
 import com.ivar7284.rbi_pay.dataclasses.Transaction
+import org.json.JSONObject
 
 class TransactionAdapter(private val transactions: List<Transaction>) : RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
 
@@ -32,6 +41,7 @@ class TransactionAdapter(private val transactions: List<Transaction>) : Recycler
         private val customerLoc: TextView = itemView.findViewById(R.id.customer_location)
         private val customerAcc: TextView = itemView.findViewById(R.id.customer_account_balance)
         private val transactionTime: TextView = itemView.findViewById(R.id.transaction_time)
+        private val confirmationBtn: TextView = itemView.findViewById(R.id.confirmation_btn)
 
         init {
             // Initially hide the additional details
@@ -39,6 +49,7 @@ class TransactionAdapter(private val transactions: List<Transaction>) : Recycler
             customerLoc.visibility = View.GONE
             customerAcc.visibility = View.GONE
             transactionTime.visibility = View.GONE
+            confirmationBtn.visibility = View.GONE
 
             // Set an onClickListener to toggle visibility
             itemView.setOnClickListener {
@@ -47,6 +58,11 @@ class TransactionAdapter(private val transactions: List<Transaction>) : Recycler
                 customerLoc.visibility = visibility
                 customerAcc.visibility = visibility
                 transactionTime.visibility = visibility
+                confirmationBtn.visibility = visibility
+            }
+
+            confirmationBtn.setOnClickListener {
+                showAlertDialog(itemView.context)
             }
         }
 
@@ -58,6 +74,58 @@ class TransactionAdapter(private val transactions: List<Transaction>) : Recycler
             customerLoc.text = "Customer Location: ${transaction.CustLocation}"
             customerAcc.text = "Account Balance: ${transaction.CustAccountBalance}"
             transactionTime.text = "Transaction Time: ${transaction.TransactionTime}"
+        }
+
+        private fun showAlertDialog(context: Context) {
+            val builder = AlertDialog.Builder(context)
+            builder.setTitle("Transaction Confirmation")
+                .setMessage("Do you want to confirm this transaction?")
+                .setPositiveButton("Yes") { dialogInterface: DialogInterface, _: Int ->
+                    dialogInterface.dismiss()
+                    Toast.makeText(context, "Transaction has been confirmed!", Toast.LENGTH_SHORT).show()
+                    sendConfirmation(context)
+                    confirmationBtn.text = "Confirmed"
+                    confirmationBtn.isClickable = false
+                }
+                .setNegativeButton("No") { dialogInterface: DialogInterface, _: Int ->
+                    dialogInterface.dismiss()
+                }
+                .show()
+        }
+
+        private fun sendConfirmation(context: Context) {
+            val url = "" // Your URL here
+            val accessToken = getAccessToken(context)
+            if (accessToken.isNullOrEmpty()) {
+                Log.e("fetchData", "Access token is null or empty")
+                return
+            }
+
+            val req = JSONObject()
+            req.put("confirmation", 1)
+
+            val requestQueue = Volley.newRequestQueue(context)
+            val jsonObjectRequest = object : JsonObjectRequest(
+                Request.Method.POST, url, req,
+                { response ->
+                    Toast.makeText(context, response.toString(), Toast.LENGTH_SHORT).show()
+                },
+                { error ->
+                    Log.i("error fetching", error.message.toString())
+                }) {
+                override fun getHeaders(): MutableMap<String, String> {
+                    val headers = HashMap<String, String>()
+                    headers["Authorization"] = "Bearer $accessToken"
+                    Log.i("header", headers.toString())
+                    return headers
+                }
+            }
+            requestQueue.add(jsonObjectRequest)
+        }
+
+        private fun getAccessToken(context: Context): String? {
+            val sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+            return sharedPreferences.getString("access_token", null)
         }
     }
 }
