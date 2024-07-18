@@ -67,13 +67,13 @@ class TransactionAdapter(private val transactions: List<Transaction>) : Recycler
         }
 
         fun bind(transaction: Transaction) {
-            receiverTextView.text = transaction.receiver_phno.toString()
-            amountTextView.text = "Rs.${transaction.TransactionAmount}"
-            dateTextView.text = transaction.TransactionDate
-            transactionId.text = "Transaction ID: ${transaction.TransactionID}"
-            customerLoc.text = "Customer Location: ${transaction.CustLocation}"
-            customerAcc.text = "Account Balance: ${transaction.CustAccountBalance}"
-            transactionTime.text = "Transaction Time: ${transaction.TransactionTime}"
+            receiverTextView.text = transaction.receiver_phno
+            amountTextView.text = "Rs.${transaction.transaction_amount}"
+            dateTextView.text = transaction.transaction_date
+            transactionId.text = "Transaction ID: ${transaction.transaction_id}"
+            customerLoc.text = "Customer Location: ${transaction.customer_location}"
+            customerAcc.text = "Account Balance: ${transaction.customer_account_balance}"
+            transactionTime.text = "Transaction Time: ${transaction.transaction_time}"
         }
 
         private fun showAlertDialog(context: Context) {

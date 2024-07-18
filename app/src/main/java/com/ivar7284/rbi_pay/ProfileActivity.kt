@@ -69,6 +69,9 @@ class ProfileActivity : AppCompatActivity() {
         logoutBtn.setOnClickListener {
             logoutBtn.startAnimation()
             deleteAccessToken()
+            startActivity(Intent(applicationContext, LoginRegisterActivity::class.java))
+            finish()
+            logoutBtn.revertAnimation()
         }
 
         // Back button

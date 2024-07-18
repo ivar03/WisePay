@@ -124,10 +124,9 @@ class ReportActivity : AppCompatActivity() {
                         withContext(Dispatchers.Main) {
                             if (response != null) {
                                 when (response.code()) {
-                                    201 -> {
-                                        Log.e("uploading success", "Data uploaded successfully")
+                                    200, 201 -> {
                                         reportBtn.revertAnimation()
-                                        Toast.makeText(applicationContext, "Data uploaded successfully", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(applicationContext, "Reported successfully", Toast.LENGTH_SHORT).show()
                                         showCustomAlertDialog("Report successful")
                                     }
                                     else -> {
@@ -168,6 +167,8 @@ class ReportActivity : AppCompatActivity() {
             .setMessage(s)
             .setPositiveButton("ok") { dialogInterface: DialogInterface, _: Int ->
                 dialogInterface.dismiss()
+                startActivity(Intent(applicationContext, HomeActivity::class.java))
+                finish()
             }
             .show()
     }

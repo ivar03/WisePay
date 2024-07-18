@@ -235,12 +235,13 @@ class PaymentActivity : AppCompatActivity() {
                             },
                             { error ->
                                 Log.e("error fetching", error.message ?: "Unknown error")
+                                Log.e("error details", error.networkResponse?.data?.toString(Charsets.UTF_8) ?: "No additional error details")
                                 Toast.makeText(this, "Error: ${error.message}", Toast.LENGTH_SHORT).show()
                             }) {
                             override fun getHeaders(): MutableMap<String, String> {
                                 val headers = HashMap<String, String>()
                                 headers["Authorization"] = "Bearer $accessToken"
-                                headers["Content-Type"] = "application/json" // Ensure correct content type
+                                headers["Content-Type"] = "application/json"
                                 return headers
                             }
                         }
@@ -255,6 +256,7 @@ class PaymentActivity : AppCompatActivity() {
             Toast.makeText(this, "Location permission not granted", Toast.LENGTH_SHORT).show()
         }
     }
+
 
 
     private fun showAlertBoxAndStartActivity() {

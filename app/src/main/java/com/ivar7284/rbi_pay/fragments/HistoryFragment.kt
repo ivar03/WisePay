@@ -53,6 +53,7 @@ class HistoryFragment : Fragment() {
             { response ->
                 val transactions = parseTransactions(response)
                 transactionHistoryRV.adapter = TransactionAdapter(transactions)
+                Log.i("tranaction_response", response.toString())
             },
             { error ->
                 Log.i("error fetching", error.message.toString())
@@ -74,22 +75,23 @@ class HistoryFragment : Fragment() {
 
             val transaction = Transaction(
                 id = jsonObject.optInt("id", -1),
-                TransactionID = jsonObject.optString("TransactionID", ""),
-                sender_phnno = jsonObject.optLong("sender_phnno", -1),
-                receiver_phno = jsonObject.optLong("receiver_phno", -1),
-                CustomerID = jsonObject.optString("CustomerID", ""),
-                CustomerDOB = jsonObject.optString("CustomerDOB", ""),
-                CustGender = jsonObject.optString("CustGender", ""),
-                CustLocation = jsonObject.optString("CustLocation", ""),
-                CustAccountBalance = jsonObject.optDouble("CustAccountBalance", 0.0),
-                TransactionDate = jsonObject.optString("TransactionDate", ""),
-                TransactionTime = jsonObject.optLong("TransactionTime", -1),
-                TransactionAmount = jsonObject.optDouble("TransactionAmount", 0.0)
+                transaction_id = jsonObject.optString("transaction_id", ""),
+                sender_phnno = jsonObject.optString("sender_upi", ""),
+                receiver_phno = jsonObject.optString("receiver_upi", ""),
+                customer_id = jsonObject.optString("customer_id", ""),
+                customer_dob = jsonObject.optString("customer_dob", null),
+                customer_gender = jsonObject.optString("customer_gender", null),
+                customer_location = jsonObject.optString("customer_location", ""),
+                customer_account_balance = jsonObject.optDouble("customer_account_balance", 0.0),
+                transaction_date = jsonObject.optString("transaction_date", ""),
+                transaction_time = jsonObject.optLong("transaction_time", -1),
+                transaction_amount = jsonObject.optDouble("transaction_amount", 0.0)
             )
             transactions.add(transaction)
         }
         return transactions
     }
+
 
     private fun getAccessToken(): String? {
         val sharedPreferences = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)

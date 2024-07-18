@@ -72,6 +72,7 @@ class LoginFragment : Fragment() {
             { response ->
                 try {
                     val token = response.getString("access")
+                    Log.i("accessToken", token)
                     saveAccessToken(token)
                     Toast.makeText(requireContext(), "Login successful!", Toast.LENGTH_SHORT).show()
                     val intent = Intent(requireContext(), HomeActivity::class.java)
