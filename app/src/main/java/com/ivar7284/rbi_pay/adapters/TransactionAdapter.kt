@@ -2,6 +2,7 @@ package com.ivar7284.rbi_pay.adapters
 
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,11 +10,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.ivar7284.rbi_pay.R
+import com.ivar7284.rbi_pay.ReportActivity
 import com.ivar7284.rbi_pay.dataclasses.Transaction
 import org.json.JSONObject
 
@@ -42,6 +45,7 @@ class TransactionAdapter(private val transactions: List<Transaction>) : Recycler
         private val customerAcc: TextView = itemView.findViewById(R.id.customer_account_balance)
         private val transactionTime: TextView = itemView.findViewById(R.id.transaction_time)
         private val confirmationBtn: TextView = itemView.findViewById(R.id.confirmation_btn)
+        private val ReportBtn: TextView = itemView.findViewById(R.id.report_btn)
 
         init {
             // Initially hide the additional details
@@ -50,6 +54,7 @@ class TransactionAdapter(private val transactions: List<Transaction>) : Recycler
             customerAcc.visibility = View.GONE
             transactionTime.visibility = View.GONE
             confirmationBtn.visibility = View.GONE
+            ReportBtn.visibility = View.GONE
 
             // Set an onClickListener to toggle visibility
             itemView.setOnClickListener {
@@ -59,10 +64,15 @@ class TransactionAdapter(private val transactions: List<Transaction>) : Recycler
                 customerAcc.visibility = visibility
                 transactionTime.visibility = visibility
                 confirmationBtn.visibility = visibility
+                ReportBtn.visibility = visibility
             }
 
             confirmationBtn.setOnClickListener {
                 showAlertDialog(itemView.context)
+            }
+
+            ReportBtn.setOnClickListener {
+                showAlertDialogForReport(itemView.context)
             }
         }
 
@@ -86,6 +96,22 @@ class TransactionAdapter(private val transactions: List<Transaction>) : Recycler
                     sendConfirmation(context)
                     confirmationBtn.text = "Confirmed"
                     confirmationBtn.isClickable = false
+                }
+                .setNegativeButton("No") { dialogInterface: DialogInterface, _: Int ->
+                    dialogInterface.dismiss()
+                }
+                .show()
+        }
+        private fun showAlertDialogForReport(context: Context) {
+            val builder = AlertDialog.Builder(context)
+            builder.setTitle("Report")
+                .setMessage("Do you want to report this transaction?")
+                .setPositiveButton("Yes") { dialogInterface: DialogInterface, _: Int ->
+                    dialogInterface.dismiss()
+                    Toast.makeText(context, "Opening report screen!", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(context, ReportActivity::class.java)
+                    intent.putExtra("transaction_id", transactionId.text.toString().substringAfter("Transaction ID: "))
+                    context.startActivity(intent)
                 }
                 .setNegativeButton("No") { dialogInterface: DialogInterface, _: Int ->
                     dialogInterface.dismiss()
