@@ -121,7 +121,7 @@ class ReportActivity : AppCompatActivity() {
     private fun imageToRequestBody(partName: String, imageView: ImageView, imageName: String): MultipartBody.Part {
         val drawable = (imageView.drawable as? BitmapDrawable)?.bitmap
         val byteArrayOutputStream = ByteArrayOutputStream()
-        drawable?.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream)
+        drawable?.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
         val imageBytes = byteArrayOutputStream.toByteArray()
         val requestBody = RequestBody.create("image/*".toMediaTypeOrNull(), imageBytes)
         Log.d("ImageRequestBody", "Converted image $imageName to RequestBody")

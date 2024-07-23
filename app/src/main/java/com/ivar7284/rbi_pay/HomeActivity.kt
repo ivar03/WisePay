@@ -129,6 +129,10 @@ class HomeActivity : AppCompatActivity() {
                     startActivity(Intent(applicationContext, SmsVerificationActivity::class.java))
                 }
 
+                R.id.nav_qr_verification -> {
+                    startActivity(Intent(applicationContext, QRVerificationActivity::class.java))
+                }
+
                 R.id.nav_locker -> {
                     val lockerFrag = LockFragment()
                     loadFragment(lockerFrag)

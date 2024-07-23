@@ -45,10 +45,10 @@ class HomeFragment : Fragment() {
     private lateinit var videoRecyclerView: RecyclerView
     private lateinit var videoAdapter: VideoAdapter
     private val videoList = listOf(
-        VideoItem("eyV020bXW4s?si=RwL7r3qqYalxhtyI", "Video 1"),
-        VideoItem("AABDnX2xhs8?si=kQdHOJE-jHylIttU", "Video 2"),
-        VideoItem("9A6AGfSkjl8?si=LkFeUiy_v3xVqmvK", "Video 3"),
-        VideoItem("3RMWM4oNQ8A?si=d7K661i6t5VfZ8bt", "Video 4")
+        VideoItem("eyV020bXW4s?si=RwL7r3qqYalxhtyI", "RBI Money Mule"),
+        VideoItem("AABDnX2xhs8?si=kQdHOJE-jHylIttU", "RBI Security of Digital Transaction"),
+        VideoItem("9A6AGfSkjl8?si=LkFeUiy_v3xVqmvK", "RBI Protection to Consumers"),
+        VideoItem("3RMWM4oNQ8A?si=d7K661i6t5VfZ8bt", "RBI Cyber Security")
     )
     private val handler = Handler(Looper.getMainLooper())
     private var currentIndex = 0

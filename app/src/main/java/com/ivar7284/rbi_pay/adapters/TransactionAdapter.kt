@@ -22,18 +22,20 @@ import org.json.JSONObject
 
 class TransactionAdapter(private val transactions: List<Transaction>) : RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
 
+    private val reversedTransactions = transactions.reversed()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.history_itemview, parent, false)
         return TransactionViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
-        val transaction = transactions[position]
+        val transaction = reversedTransactions[position]
         holder.bind(transaction)
     }
 
     override fun getItemCount(): Int {
-        return transactions.size
+        return reversedTransactions.size
     }
 
     class TransactionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -48,7 +50,6 @@ class TransactionAdapter(private val transactions: List<Transaction>) : Recycler
         private val ReportBtn: TextView = itemView.findViewById(R.id.report_btn)
 
         init {
-            // Initially hide the additional details
             transactionId.visibility = View.GONE
             customerLoc.visibility = View.GONE
             customerAcc.visibility = View.GONE
@@ -56,7 +57,6 @@ class TransactionAdapter(private val transactions: List<Transaction>) : Recycler
             confirmationBtn.visibility = View.GONE
             ReportBtn.visibility = View.GONE
 
-            // Set an onClickListener to toggle visibility
             itemView.setOnClickListener {
                 val visibility = if (transactionId.visibility == View.GONE) View.VISIBLE else View.GONE
                 transactionId.visibility = visibility
@@ -102,6 +102,7 @@ class TransactionAdapter(private val transactions: List<Transaction>) : Recycler
                 }
                 .show()
         }
+
         private fun showAlertDialogForReport(context: Context) {
             val builder = AlertDialog.Builder(context)
             builder.setTitle("Report")
@@ -120,7 +121,7 @@ class TransactionAdapter(private val transactions: List<Transaction>) : Recycler
         }
 
         private fun sendConfirmation(context: Context) {
-            val url = "" // Your URL here
+            val url = ""
             val accessToken = getAccessToken(context)
             if (accessToken.isNullOrEmpty()) {
                 Log.e("fetchData", "Access token is null or empty")

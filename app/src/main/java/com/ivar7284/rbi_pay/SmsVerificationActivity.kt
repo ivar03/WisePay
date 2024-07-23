@@ -69,7 +69,7 @@ class SmsVerificationActivity : AppCompatActivity() {
             val indexBody = cursor.getColumnIndex(Telephony.Sms.BODY)
             val indexAddress = cursor.getColumnIndex(Telephony.Sms.ADDRESS)
             var count = 0
-            while (cursor.moveToNext() && count < 50) {
+            while (cursor.moveToNext() && count < 25) {
                 val message = cursor.getString(indexBody)
                 val sender = cursor.getString(indexAddress)
                 val smsMessage = SMSMessage(sender, message)
