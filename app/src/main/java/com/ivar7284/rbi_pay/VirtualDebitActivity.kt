@@ -24,7 +24,7 @@ class VirtualDebitActivity : AppCompatActivity() {
     private lateinit var backBtn: ImageView
     private lateinit var generateBtn: CircularProgressButton
 
-    private val URL = "https://rbihackathon2024-production.up.railway.app/accounts/generate-random-debit-card/"
+    private val URL = "https://web-production-99b4c.up.railway.app/accounts/generate-random-debit-card/"
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {

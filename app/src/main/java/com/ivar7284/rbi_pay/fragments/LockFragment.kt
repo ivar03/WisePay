@@ -28,7 +28,7 @@ class LockFragment : Fragment() {
     private lateinit var confirmationBtn: CircularProgressButton
     private lateinit var sharedPreferences: SharedPreferences
 
-    private val URL = "https://rbihackathon2024-production.up.railway.app/accounts/update-lock-status/"
+    private val URL = "https://web-production-99b4c.up.railway.app/accounts/update-lock-status/"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

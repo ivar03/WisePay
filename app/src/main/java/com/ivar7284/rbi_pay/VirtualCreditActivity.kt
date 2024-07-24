@@ -19,13 +19,14 @@ import br.com.simplepass.loadingbutton.customViews.CircularProgressButton
 import com.android.volley.Request
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import org.json.JSONException
 
 class VirtualCreditActivity : AppCompatActivity() {
 
     private lateinit var backBtn: ImageView
     private lateinit var generateBtn: CircularProgressButton
 
-    private val URL = "https://rbihackathon2024-production.up.railway.app/accounts/generate-random-credit-card/"
+    private val URL = "https://web-production-99b4c.up.railway.app/accounts/generate-random-credit-card/"
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +42,6 @@ class VirtualCreditActivity : AppCompatActivity() {
         //generate button (main logic)
         generateBtn = findViewById(R.id.generate_button)
         generateBtn.setOnClickListener {
-            //backend call and updating the visibility and text of text views
             generateBtn.startAnimation()
             fetchData()
         }
@@ -57,6 +57,8 @@ class VirtualCreditActivity : AppCompatActivity() {
         val accessToken = getAccessToken()
         if (accessToken.isNullOrEmpty()) {
             Log.e("fetchData", "Access token is null or empty")
+            Toast.makeText(this, "Authentication error: Access token is missing.", Toast.LENGTH_SHORT).show()
+            generateBtn.revertAnimation()
             return
         }
 
@@ -64,22 +66,40 @@ class VirtualCreditActivity : AppCompatActivity() {
         val jsonObjectRequest = object : JsonObjectRequest(
             Request.Method.GET, URL, null,
             { response ->
-                val cardNo = response.getString("card_number")
-                val cvv = response.getString("cvv")
-                val pin = response.getString("pin")
+                try {
+                    val cardNo = response.getString("card_number")
+                    val cvv = response.getString("cvv")
+                    val pin = response.getString("pin")
 
-                findViewById<LinearLayout>(R.id.card_number_ll).visibility = View.VISIBLE
-                findViewById<LinearLayout>(R.id.card_pin_ll).visibility = View.VISIBLE
-                findViewById<LinearLayout>(R.id.card_cvv_ll).visibility = View.VISIBLE
+                    findViewById<LinearLayout>(R.id.card_number_ll).visibility = View.VISIBLE
+                    findViewById<LinearLayout>(R.id.card_pin_ll).visibility = View.VISIBLE
+                    findViewById<LinearLayout>(R.id.card_cvv_ll).visibility = View.VISIBLE
 
-                findViewById<TextView>(R.id.card_number_tv).text = cardNo
-                findViewById<TextView>(R.id.card_cvv_tv).text = cvv
-                findViewById<TextView>(R.id.card_pin_tv).text = pin
+                    findViewById<TextView>(R.id.card_number_tv).text = cardNo
+                    findViewById<TextView>(R.id.card_cvv_tv).text = cvv
+                    findViewById<TextView>(R.id.card_pin_tv).text = pin
 
+                } catch (e: JSONException) {
+                    Log.e("JSONError", "Error parsing response: ${e.message}")
+                    Toast.makeText(this, "Error processing data. Please try again.", Toast.LENGTH_SHORT).show()
+                }
                 generateBtn.revertAnimation()
             },
             { error ->
-                Log.i("error fetching", error.message.toString())
+                generateBtn.revertAnimation()
+
+                val statusCode = error.networkResponse?.statusCode
+                val data = error.networkResponse?.data
+                val errorMessage = data?.let { String(it) } ?: "Unknown error"
+
+                Log.e("Volley Error", "Status Code: $statusCode, Response: $errorMessage")
+
+                when (statusCode) {
+                    500 -> Toast.makeText(this, "Internal server error. Please try again later.", Toast.LENGTH_SHORT).show()
+                    401 -> Toast.makeText(this, "Unauthorized. Please check your access token.", Toast.LENGTH_SHORT).show()
+                    404 -> Toast.makeText(this, "Resource not found.", Toast.LENGTH_SHORT).show()
+                    else -> Toast.makeText(this, "An error occurred. Please try again.", Toast.LENGTH_SHORT).show()
+                }
             }) {
             override fun getHeaders(): MutableMap<String, String> {
                 val headers = HashMap<String, String>()

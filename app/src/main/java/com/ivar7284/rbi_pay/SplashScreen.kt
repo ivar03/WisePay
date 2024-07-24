@@ -1,5 +1,6 @@
 package com.ivar7284.rbi_pay
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -25,17 +26,13 @@ class SplashScreen : AppCompatActivity() {
             insets
         }
 
-        // Check if biometric authentication is available
         val biometricManager = BiometricManager.from(this)
         if (biometricManager.canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS) {
-            // biometric prompt
             val biometricPrompt = createBiometricPrompt()
             val promptInfo = createBiometricPromptInfo()
-
-            // authenticate user
             biometricPrompt.authenticate(promptInfo)
         } else {
-            navigateToMainActivity()
+            navigateBasedOnToken()
         }
     }
 
@@ -49,7 +46,7 @@ class SplashScreen : AppCompatActivity() {
 
             override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                 super.onAuthenticationSucceeded(result)
-                navigateToMainActivity()
+                navigateBasedOnToken()
             }
 
             override fun onAuthenticationFailed() {
@@ -64,7 +61,7 @@ class SplashScreen : AppCompatActivity() {
         return BiometricPrompt.PromptInfo.Builder()
             .setTitle("Biometric Verification")
             .setSubtitle("Log in using your biometric credential")
-            .setDeviceCredentialAllowed(true) // allow fallback to device PIN/password
+            .setDeviceCredentialAllowed(true) // Allow fallback to device PIN/password
             .build()
     }
 
@@ -92,11 +89,20 @@ class SplashScreen : AppCompatActivity() {
         }
     }
 
-    private fun navigateToMainActivity() {
+    private fun navigateBasedOnToken() {
+        val sharedPrefs = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val accessToken = sharedPrefs.getString("access_token", null)
+
+        val targetActivity = if (accessToken != null) {
+            HomeActivity::class.java
+        } else {
+            LoginRegisterActivity::class.java
+        }
+
         val timer = Timer()
         timer.schedule(object : TimerTask() {
             override fun run() {
-                startActivity(Intent(applicationContext, LoginRegisterActivity::class.java))
+                startActivity(Intent(applicationContext, targetActivity))
                 finish()
             }
         }, 1000)

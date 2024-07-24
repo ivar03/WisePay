@@ -185,7 +185,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun fetchUserData() {
-        val url = "https://rbihackathon2024-production.up.railway.app/user/user-details/"
+        val url = "https://web-production-99b4c.up.railway.app/user/user-details/"
 
         val accessToken = getAccessToken()
         if (accessToken.isNullOrEmpty()) {

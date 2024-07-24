@@ -27,7 +27,7 @@ class LoginFragment : Fragment() {
     private lateinit var loginBtn: CircularProgressButton
     private lateinit var registerBtn: TextView
 
-    val URL = "https://rbihackathon2024-production.up.railway.app/user/login/"
+    val URL = "https://web-production-99b4c.up.railway.app/user/login/"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

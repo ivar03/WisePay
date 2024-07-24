@@ -34,7 +34,7 @@ class RegisterFragment : Fragment() {
     private lateinit var loginBtn: TextView
     private lateinit var registerBtn: CircularProgressButton
 
-    private val URL = "https://rbihackathon2024-production.up.railway.app/user/register/"
+    private val URL = "https://web-production-99b4c.up.railway.app/user/register/"
 
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
@@ -78,21 +78,23 @@ class RegisterFragment : Fragment() {
         val cpass: String = cpassword.text.toString()
 
         if (pass == cpass) {
-            val req = JSONObject()
-            req.put("name", fname)
-            req.put("email", mail)
-            req.put("upi_id", upiId)
-            req.put("password", pass)
-            req.put("number", mob)
+            val req = JSONObject().apply {
+                put("name", fname)
+                put("email", mail)
+                put("upi_id", upiId)
+                put("password", pass)
+                put("password2", pass)
+                put("phn", mob)
+            }
 
             val requestQueue = Volley.newRequestQueue(requireContext())
             val jsonObjectRequest = JsonObjectRequest(
                 Request.Method.POST, URL, req,
                 { response ->
                     try {
-                        val message = response.getString("message")
-                        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-                        autoLogin(mail,pass)
+                        registerBtn.revertAnimation()
+                        Log.d("Server Response", response.toString())
+                        autoLogin(mail, pass)
                     } catch (e: JSONException) {
                         e.printStackTrace()
                         Log.e("JSON Error", e.message.toString())
@@ -100,8 +102,30 @@ class RegisterFragment : Fragment() {
                 },
                 { error ->
                     registerBtn.revertAnimation()
-                    Log.e("Volley Error", error.message.toString())
-                    Toast.makeText(requireContext(), "Registration failed!", Toast.LENGTH_SHORT).show()
+
+                    val statusCode = error.networkResponse?.statusCode
+                    val data = error.networkResponse?.data
+                    val errorMessage = data?.let { String(it) } ?: "Unknown error"
+
+                    Log.e("Volley Error", "Status Code: $statusCode, Response: $errorMessage")
+
+                    try {
+                        val errorObj = JSONObject(errorMessage)
+                        val errorMessages = mutableListOf<String>()
+
+                        errorObj.keys().forEach { key ->
+                            val messages = errorObj.getJSONArray(key)
+                            for (i in 0 until messages.length()) {
+                                errorMessages.add("${key.capitalize()}: ${messages[i]}")
+                            }
+                        }
+
+                        Toast.makeText(requireContext(), errorMessages.joinToString("\n"), Toast.LENGTH_LONG).show()
+                    } catch (e: JSONException) {
+                        // In case of JSON parsing error, log it and show a generic message
+                        e.printStackTrace()
+                        Toast.makeText(requireContext(), "Registration failed!", Toast.LENGTH_SHORT).show()
+                    }
                 })
 
             requestQueue.add(jsonObjectRequest)
@@ -114,15 +138,18 @@ class RegisterFragment : Fragment() {
     private fun autoLogin(mail:String, pass:String) {
         val requestQueue = Volley.newRequestQueue(requireContext())
 
+        val url = "https://web-production-99b4c.up.railway.app/user/login/"
+
         val reqLogin = JSONObject()
         reqLogin.put("email", mail)
         reqLogin.put("password", pass)
-        val url = "https://rbihackathon2024-production.up.railway.app/user/login/"
+
         val jsonObjectRequest = JsonObjectRequest(
             Request.Method.POST, url, reqLogin,
             { response ->
                 try {
                     val token = response.getString("access")
+                    Log.i("accessToken", token)
                     saveAccessToken(token)
                     Toast.makeText(requireContext(), "Login successful!", Toast.LENGTH_SHORT).show()
                     val intent = Intent(requireContext(), HomeActivity::class.java)
@@ -134,7 +161,6 @@ class RegisterFragment : Fragment() {
                 }
             },
             { error ->
-                registerBtn.revertAnimation()
                 Log.e("Volley Error", error.message.toString())
                 Toast.makeText(requireContext(), "Login failed!", Toast.LENGTH_SHORT).show()
             })

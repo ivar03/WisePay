@@ -45,7 +45,7 @@ class PaymentActivity : AppCompatActivity() {
     private lateinit var biometricPrompt: BiometricPrompt
     private lateinit var promptInfo: BiometricPrompt.PromptInfo
 
-    private val URL = "https://rbihackathon2024-production.up.railway.app/accounts/perform-transaction/"
+    private val URL = "https://web-production-99b4c.up.railway.app/accounts/perform-transaction/"
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -119,7 +119,7 @@ class PaymentActivity : AppCompatActivity() {
     }
 
     private fun fetchData(qrResult: String?) {
-        val url = "https://rbihackathon2024-production.up.railway.app/user/AllUserDetail/"
+        val url = "https://web-production-99b4c.up.railway.app/user/AllUserDetail/"
         val accessToken = getAccessToken()
 
         if (accessToken.isNullOrEmpty()) {

@@ -21,7 +21,7 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var backBtn: ImageButton
     private lateinit var logoutBtn: CircularProgressButton
 
-    private val URL = "https://rbihackathon2024-production.up.railway.app/user/user-details/"
+    private val URL = "https://web-production-99b4c.up.railway.app/user/user-details/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

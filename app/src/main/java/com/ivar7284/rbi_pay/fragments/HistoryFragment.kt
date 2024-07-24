@@ -22,7 +22,7 @@ import org.json.JSONObject
 class HistoryFragment : Fragment() {
 
     private lateinit var transactionHistoryRV: RecyclerView
-    private val URL = "https://rbihackathon2024-production.up.railway.app/accounts/user-transactions/"
+    private val URL = "https://web-production-99b4c.up.railway.app/accounts/user-transactions/"
 
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(

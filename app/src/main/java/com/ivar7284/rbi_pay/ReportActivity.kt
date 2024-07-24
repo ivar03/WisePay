@@ -192,7 +192,7 @@ class ReportActivity : AppCompatActivity() {
             .build()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://rbihackathon2024-production.up.railway.app/")
+            .baseUrl("https://web-production-99b4c.up.railway.app/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
             .build()

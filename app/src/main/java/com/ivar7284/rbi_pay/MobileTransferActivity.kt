@@ -23,7 +23,7 @@ class MobileTransferActivity : AppCompatActivity() {
     private lateinit var subHeading: TextView // for visibility
     private lateinit var searchResult: RecyclerView
 
-    private val URL = "https://rbihackathon2024-production.up.railway.app/user-detail/"
+    private val URL = "https://web-production-99b4c.up.railway.app/user-detail/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -85,7 +85,7 @@ class SmsVerificationActivity : AppCompatActivity() {
     }
 
     private fun sendSpamPredictionRequest(smsMessage: SMSMessage) {
-        val url = "https://rbihackathon2024-production.up.railway.app/SpamPred/predict_spam/"
+        val url = "https://web-production-99b4c.up.railway.app/SpamPred/predict_spam/"
         val requestBody = JSONObject().apply {
             put("text", smsMessage.message)
         }
