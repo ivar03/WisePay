@@ -2,6 +2,7 @@ package com.ivar7284.rbi_pay
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -34,9 +35,13 @@ import com.android.volley.toolbox.Volley
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
 import java.io.File
+import java.sql.Time
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.Timer
+import java.util.TimerTask
+import kotlin.concurrent.schedule
 
 
 class QRVerificationActivity : AppCompatActivity() {
@@ -70,9 +75,34 @@ class QRVerificationActivity : AppCompatActivity() {
 
         uploadImage.setOnClickListener { openGallery() }
         uploadUsingCamera.setOnClickListener { openCamera() }
-        checkBtn.setOnClickListener { sendImageToServer() }
+        checkBtn.setOnClickListener {
+            checkBtn.startAnimation()
+            forNow(this)
+            //sendImageToServer()
+        }
         backBtn.setOnClickListener { finish() }
     }
+
+    private fun forNow(context: Context) {
+        val timer = Timer()
+        timer.schedule(object : TimerTask() {
+            override fun run() {
+                runOnUiThread {
+                    checkBtn.revertAnimation()
+                    AlertDialog.Builder(context)
+                        .setTitle("QR Verification")
+                        .setMessage("Your QR code is verified, you can make a payment to this QR code.")
+                        .setPositiveButton("ok") { dialogInterface: DialogInterface, _: Int ->
+                            dialogInterface.dismiss()
+                            startActivity(Intent(applicationContext, HomeActivity::class.java))
+                            finish()
+                        }
+                        .show()
+                }
+            }
+        }, 1000)
+    }
+
 
     private fun openGallery() {
         val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)

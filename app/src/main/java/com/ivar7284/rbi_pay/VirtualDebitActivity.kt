@@ -79,7 +79,9 @@ class VirtualDebitActivity : AppCompatActivity() {
                 generateBtn.revertAnimation()
             },
             { error ->
+                Toast.makeText(applicationContext, "Error: ${error.message}", Toast.LENGTH_LONG).show()
                 Log.i("error fetching", error.message.toString())
+                generateBtn.revertAnimation()
             }) {
             override fun getHeaders(): MutableMap<String, String> {
                 val headers = HashMap<String, String>()
